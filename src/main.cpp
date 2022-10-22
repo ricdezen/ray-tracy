@@ -40,7 +40,7 @@ int main(int argc, char **args) {
         // Draw on the surface.
         for (int i = 0; i < SCREEN_HEIGHT; i++)
             for (int j = 0; j < SCREEN_WIDTH; j++) {
-                vec3 color = camera.capture(scene, j, i);
+                vec3 color = camera.capture(scene, j, i, Camera::MSAA::X16);
                 int red = (int)round(color.x * 255.0);
                 int green = (int)round(color.y * 255.0);
                 int blue = (int)round(color.z * 255.0);

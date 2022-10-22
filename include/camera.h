@@ -3,9 +3,13 @@
 
 #include <geom.h>
 #include <hittable.h>
+#include <utils.h>
 
 class Camera {
   public:
+    // Antialiasing with uniform MSAA.
+    enum class MSAA { OFF = 1, X4 = 2, X16 = 4 };
+
     /**
      * @param width Width of the resolution, in pixels.
      * @param height Height of the resolution, in pixels.
@@ -15,7 +19,7 @@ class Camera {
     /**
      * Capture color for a single pixel.
      */
-    vec3 capture(const Scene &scene, int x, int y);
+    vec3 capture(const Scene &scene, int x, int y, Camera::MSAA msaa);
 
   private:
     int width;
@@ -25,7 +29,8 @@ class Camera {
     float aspect_ratio;
     float width_meters;
     float height_meters;
-    float pixel_size;
+
+    Grid image_grid;
 };
 
 #endif

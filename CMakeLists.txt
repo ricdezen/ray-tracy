@@ -16,7 +16,10 @@ include_directories(dep/SDL/include)
 set(SDL_LIBS SDL2 SDL2main)
 
 ## --- Compile actual project ---
-set(SRC_COMMON src/display.cpp src/geom.cpp src/hittable.cpp src/camera.cpp)
+set(
+    SRC_COMMON src/display.cpp src/geom.cpp src/hittable.cpp src/camera.cpp
+    src/light.cpp src/utils.cpp
+)
 
 include_directories(include)
 add_executable(main src/main.cpp ${SRC_COMMON})

@@ -9,6 +9,7 @@ struct vec3 {
     float y;
     float z;
 
+    vec3() = default;
     vec3(float v);
     vec3(float x, float y, float z);
 
