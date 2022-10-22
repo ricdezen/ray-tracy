@@ -3,6 +3,20 @@
 
 #include <SDL.h>
 
+class Image {
+  public:
+    Image(int width, int height);
+
+    ~Image();
+
+    void drawPixel(int x, int y, uint32_t color);
+
+    SDL_Surface *getSurface();
+
+  private:
+    SDL_Surface *surface;
+};
+
 class Display {
   public:
     /**
@@ -15,14 +29,9 @@ class Display {
      */
     ~Display();
 
-    void show();   // Show window.
-    void hide();   // Hide window.
-    void update(); // Update window.
-
-    /**
-     * Draw a pixel. Assumes the display is in RGB format.
-     */
-    void drawPixel(int x, int y, uint32_t color);
+    void show();               // Show window.
+    void hide();               // Hide window.
+    void update(Image *image); // Update window.
 
   private:
     SDL_Window *m_window;

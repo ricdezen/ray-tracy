@@ -15,17 +15,21 @@ int main(int argc, char **args) {
     const int SCREEN_WIDTH = 1280;
     const int SCREEN_HEIGHT = 720;
 
+    const int IMG_WIDTH = 640;
+    const int IMG_HEIGHT = 360;
+
     // Initialize SDL.
     ERROR_WRAP_SDL(SDL_Init(SDL_INIT_EVERYTHING));
 
     // Make Window.
     Display display("A Window", SCREEN_WIDTH, SCREEN_HEIGHT);
+    Image image(IMG_WIDTH, IMG_HEIGHT);
 
     // Make scene.
     Scene scene({Sphere(vec3(0, 0, -5), 1)});
 
     // Make camera.
-    Camera camera(1280, 720);
+    Camera camera(IMG_WIDTH, IMG_HEIGHT);
 
     // Window event loop.
     SDL_Event e;
@@ -38,16 +42,17 @@ int main(int argc, char **args) {
         }
 
         // Draw on the surface.
-        for (int i = 0; i < SCREEN_HEIGHT; i++)
-            for (int j = 0; j < SCREEN_WIDTH; j++) {
+        for (int i = 0; i < IMG_HEIGHT; i++)
+            for (int j = 0; j < IMG_WIDTH; j++) {
                 vec3 color = camera.capture(scene, j, i, Camera::MSAA::X16);
                 int red = (int)round(color.x * 255.0);
                 int green = (int)round(color.y * 255.0);
                 int blue = (int)round(color.z * 255.0);
-                display.drawPixel(j, i, (red << 16) + (green << 8) + blue);
+                image.drawPixel(
+                    j, i, (255 << 24) + red + (green << 8) + (blue << 16));
             }
 
-        display.update();
+        display.update(&image);
     }
 
     // Free resources and quit.
