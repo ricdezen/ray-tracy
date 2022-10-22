@@ -27,7 +27,8 @@ vec3 Camera::capture(const Scene &scene, int x, int y, Camera::MSAA msaa) {
     for (int i = 0; i < samps; i++) {
         for (int j = 0; j < samps; j++) {
             vec3 samp = pixel_grid.cellCenter(i, j);
-            color += estimateRadiance(scene, {vec3(0), samp});
+            vec3 raw_col = estimateRadiance(scene, {vec3(0), samp});
+            color += saturate(raw_col);
         }
     }
     color /= samps * samps;

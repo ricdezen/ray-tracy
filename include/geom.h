@@ -13,11 +13,16 @@ struct vec3 {
     vec3(float v);
     vec3(float x, float y, float z);
 
+    // Unary -
+    vec3 operator-() const;
+
+    // In-place operators
     vec3 &operator+=(const vec3 &other);
     vec3 &operator-=(const vec3 &other);
     vec3 &operator*=(float a);
     vec3 &operator/=(float a);
 
+    // Binary operators
     friend vec3 operator+(vec3 lhs, const vec3 &rhs);
     friend vec3 operator-(vec3 lhs, const vec3 &rhs);
     friend vec3 operator*(vec3 lhs, float rhs);
@@ -26,6 +31,7 @@ struct vec3 {
     friend float dot(const vec3 &lhs, const vec3 &rhs);
     friend float length(const vec3 &v);
     friend vec3 normalize(const vec3 &v);
+    friend vec3 saturate(const vec3 &v);
 };
 
 /**
@@ -49,5 +55,7 @@ struct Hit {
     vec3 point;
     vec3 normal;
 };
+
+vec3 reflect(const vec3 &incident, const vec3 &normal);
 
 #endif // GEOM_H
