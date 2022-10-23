@@ -8,6 +8,6 @@
  * @param scene The target scene.
  * @param ray A ray to project on the scene.
  */
-vec3 estimateRadiance(const Scene &scene, const Ray &ray);
+vec3 estimateRadiance(const Scene &scene, const Ray &ray, int bounces);
 
 #endif

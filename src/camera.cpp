@@ -7,7 +7,7 @@ Camera::Camera(int width, int height) : width(width), height(height) {
     focus_dist = 1.0f;
     aspect_ratio = width * 1.0f / height;
 
-    height_meters = tan(fov / 2.0f) * focus_dist;
+    height_meters = (float)tan(fov / 2.0f) * focus_dist;
     width_meters = height_meters * aspect_ratio;
 
     // Grid for image pixels.
@@ -19,6 +19,8 @@ Camera::Camera(int width, int height) : width(width), height(height) {
 
 vec3 Camera::capture(const Scene &scene, int x, int y, Camera::MSAA msaa) {
     int samps = static_cast<int>(msaa);
+    // TODO: move out.
+    const int mcsamps = 16;
 
     // Make ray that goes through pixel.
     Grid pixel_grid = image_grid.subgrid(x, y, samps, samps);
@@ -27,11 +29,12 @@ vec3 Camera::capture(const Scene &scene, int x, int y, Camera::MSAA msaa) {
     for (int i = 0; i < samps; i++) {
         for (int j = 0; j < samps; j++) {
             vec3 samp = pixel_grid.cellCenter(i, j);
-            vec3 raw_col = estimateRadiance(scene, {vec3(0), samp});
-            color += saturate(raw_col);
+            for (int k = 0; k < mcsamps; k++) {
+                color += estimateRadiance(scene, {vec3(0), samp}, 10);
+            }
         }
     }
-    color /= samps * samps;
+    color /= (float)samps * samps * mcsamps;
 
-    return color;
+    return saturate(color);
 }

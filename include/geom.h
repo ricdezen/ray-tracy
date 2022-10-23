@@ -19,12 +19,14 @@ struct vec3 {
     // In-place operators
     vec3 &operator+=(const vec3 &other);
     vec3 &operator-=(const vec3 &other);
+    vec3 &operator*=(const vec3 &other);
     vec3 &operator*=(float a);
     vec3 &operator/=(float a);
 
     // Binary operators
     friend vec3 operator+(vec3 lhs, const vec3 &rhs);
     friend vec3 operator-(vec3 lhs, const vec3 &rhs);
+    friend vec3 operator*(vec3 lhs, const vec3 &rhs);
     friend vec3 operator*(vec3 lhs, float rhs);
     friend vec3 operator/(vec3 lhs, float rhs);
 
