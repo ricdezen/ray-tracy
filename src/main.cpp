@@ -1,8 +1,12 @@
 #include <SDL.h>
 #include <camera.h>
+#include <chrono>
 #include <cstdio>
 #include <display.h>
 #include <hittable.h>
+#include <iostream>
+
+namespace chrono = std::chrono;
 
 // If expression does not eval to 0, print SDL error.
 #define ERROR_WRAP_SDL(expression)                                             \
@@ -25,10 +29,14 @@ int main(int argc, char **args) {
     Image image(IMG_WIDTH, IMG_HEIGHT);
 
     // Make scene.
-    Scene scene({Sphere(vec3(0, 0, -5), 1), Sphere(vec3(0, -101, -5), 100)});
+    Scene scene({Sphere(vec3(0, 0, -5), 1), Sphere(vec3(-2, 0, -5), 1),
+                 Sphere(vec3(2, 0, -5), 1), Sphere(vec3(0, -101, -5), 100)});
 
     // Make camera.
     Camera camera(IMG_WIDTH, IMG_HEIGHT);
+
+    // Measure time.
+    auto start_time = chrono::high_resolution_clock::now();
 
     // Generate image.
     for (int i = 0; i < IMG_HEIGHT; i++)
@@ -39,9 +47,14 @@ int main(int argc, char **args) {
             int blue = (int)round(color.z * 255.0);
             image.drawPixel(j, i,
                             (255 << 24) + red + (green << 8) + (blue << 16));
-            printf("Done pixel %d / %d\n", i * IMG_WIDTH + j,
+            printf("Pixel %d / %d\n", i * IMG_WIDTH + j,
                    IMG_WIDTH * IMG_HEIGHT);
         }
+
+    // Print time taken.
+    auto end_time = chrono::high_resolution_clock::now();
+    auto sec = chrono::duration_cast<chrono::seconds>(end_time - start_time);
+    std::cout << sec.count() << " seconds taken.\n";
 
     // Make Window.
     Display display("A Window", SCREEN_WIDTH, SCREEN_HEIGHT);

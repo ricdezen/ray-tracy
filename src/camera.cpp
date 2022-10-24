@@ -26,12 +26,13 @@ vec3 Camera::capture(const Scene &scene, int x, int y, Camera::MSAA msaa) {
     Grid pixel_grid = image_grid.subgrid(x, y, samps, samps);
 
     vec3 color = vec3(0);
+    // For each MSAA sample.
     for (int i = 0; i < samps; i++) {
         for (int j = 0; j < samps; j++) {
             vec3 samp = pixel_grid.cellCenter(i, j);
-            for (int k = 0; k < mcsamps; k++) {
+            // Monte Carlo samples.
+            for (int k = 0; k < mcsamps; k++)
                 color += estimateRadiance(scene, {vec3(0), samp}, 10);
-            }
         }
     }
     color /= (float)samps * samps * mcsamps;
