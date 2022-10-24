@@ -2,6 +2,8 @@
 #include <light.h>
 
 Camera::Camera(int width, int height) : width(width), height(height) {
+    // TODO: camera is currently at origin facing z axis, change to allow
+    // generic pos.
     // TODO: remove this.
     fov = 90.0f; // Vertical fov.
     focus_dist = 1.0f;
@@ -21,6 +23,7 @@ vec3 Camera::capture(const Scene &scene, int x, int y, Camera::MSAA msaa) {
     int samps = static_cast<int>(msaa);
     // TODO: move out.
     const int mcsamps = 16;
+    const int bounces = 10;
 
     // Make ray that goes through pixel.
     Grid pixel_grid = image_grid.subgrid(x, y, samps, samps);
@@ -32,7 +35,7 @@ vec3 Camera::capture(const Scene &scene, int x, int y, Camera::MSAA msaa) {
             vec3 samp = pixel_grid.cellCenter(i, j);
             // Monte Carlo samples.
             for (int k = 0; k < mcsamps; k++)
-                color += estimateRadiance(scene, {vec3(0), samp}, 10);
+                color += estimateRadiance(scene, {vec3(0), samp}, bounces);
         }
     }
     color /= (float)samps * samps * mcsamps;
