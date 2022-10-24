@@ -23,12 +23,13 @@ class Hittable {
  */
 class Sphere : Hittable {
   public:
-    Sphere(const vec3 &center, float radius);
+    Sphere(const vec3 &center, const vec3 &color, float radius);
 
     bool hit(const Ray &ray, Hit &hit, float min_t, float max_t) const;
 
   private:
     vec3 center;
+    vec3 color;
     float radius;
 };
 

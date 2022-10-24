@@ -33,8 +33,8 @@ Ray::Ray(const vec3 &origin, const vec3 &dir)
 
 // --- Hit ---
 
-Hit::Hit(float t, const vec3 &point, const vec3 &normal)
-    : t(t), point(point), normal(normal) {}
+Hit::Hit(float t, const vec3 &point, const vec3 &normal, const vec3 &diffuse)
+    : t(t), point(point), normal(normal), diffuse(diffuse) {}
 
 const Hit Hit::NO_HIT =
-    Hit(std::numeric_limits<float>::max(), vec3(0), vec3(0));
+    Hit(std::numeric_limits<float>::max(), vec3(0), vec3(0), vec3(0));

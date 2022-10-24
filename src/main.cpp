@@ -29,8 +29,10 @@ int main(int argc, char **args) {
     Image image(IMG_WIDTH, IMG_HEIGHT);
 
     // Make scene.
-    Scene scene({Sphere(vec3(0, 0, -5), 1), Sphere(vec3(-2, 0, -5), 1),
-                 Sphere(vec3(2, 0, -5), 1), Sphere(vec3(0, -101, -5), 100)});
+    Scene scene({Sphere(vec3(0, 0, -5), vec3(1, 1, 1), 1),
+                 Sphere(vec3(-2, 0, -5), vec3(1, 0, 0), 1),
+                 Sphere(vec3(2, 0, -5), vec3(0, 1, 0), 1),
+                 Sphere(vec3(0, -101, -5), vec3(0.1, 0.1, 0.2), 100)});
 
     // Make camera.
     Camera camera(IMG_WIDTH, IMG_HEIGHT);
@@ -41,7 +43,7 @@ int main(int argc, char **args) {
     // Generate image.
     for (int i = 0; i < IMG_HEIGHT; i++)
         for (int j = 0; j < IMG_WIDTH; j++) {
-            vec3 color = camera.capture(scene, j, i, Camera::MSAA::X16);
+            vec3 color = camera.capture(scene, j, i, Camera::MSAA::OFF);
             int red = (int)round(color.x * 255.0);
             int green = (int)round(color.y * 255.0);
             int blue = (int)round(color.z * 255.0);

@@ -36,10 +36,12 @@ struct Ray {
 struct Hit {
     static const Hit NO_HIT;
 
-    Hit(float t, const vec3 &point, const vec3 &normal);
+    Hit(float t, const vec3 &point, const vec3 &normal, const vec3 &diffuse);
+
     float t;
     vec3 point;
     vec3 normal;
+    vec3 diffuse;
 };
 
 #endif // GEOM_H

@@ -3,8 +3,8 @@
 
 // --- Sphere ---
 
-Sphere::Sphere(const vec3 &center, float radius)
-    : center(center), radius(radius) {}
+Sphere::Sphere(const vec3 &center, const vec3 &color, float radius)
+    : center(center), color(color), radius(radius) {}
 
 bool Sphere::hit(const Ray &ray, Hit &hit, float min_t, float max_t) const {
     vec3 oc = ray.origin - center;
@@ -32,6 +32,7 @@ bool Sphere::hit(const Ray &ray, Hit &hit, float min_t, float max_t) const {
     hit.t = root;
     hit.point = ray.origin + ray.dir * hit.t;
     hit.normal = (hit.point - center) / radius;
+    hit.diffuse = color;
 
     return true;
 }
