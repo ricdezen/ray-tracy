@@ -15,6 +15,9 @@ set(CMAKE_CONFIGURATION_TYPES "${CMAKE_CONFIGURATION_TYPES_OLD}")
 include_directories(dep/SDL/include)
 set(SDL_LIBS SDL2 SDL2main)
 
+## --- GLM ---
+include_directories(dep/glm/glm)
+
 ## --- Compile actual project ---
 set(
     SRC_COMMON src/display.cpp src/geom.cpp src/hittable.cpp src/camera.cpp
