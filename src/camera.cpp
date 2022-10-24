@@ -22,8 +22,8 @@ Camera::Camera(int width, int height) : width(width), height(height) {
 vec3 Camera::capture(const Scene &scene, int x, int y, Camera::MSAA msaa) {
     int samps = static_cast<int>(msaa);
     // TODO: move out.
-    const int mcsamps = 16;
-    const int bounces = 10;
+    const int mcsamps = 128;
+    const int bounces = 16;
 
     // Make ray that goes through pixel.
     Grid pixel_grid = image_grid.subgrid(x, y, samps, samps);

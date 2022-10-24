@@ -5,7 +5,18 @@
 
 // --- Extra geometric functions ---
 
+/**
+ * Clamp between 0 and 1.
+ */
 vec3 saturate(const vec3 &v);
+
+/**
+ * Find rotation matrix that aligns the first vector onto the second one.
+ *
+ * @param from First vector.
+ * @param to Second vector.
+ */
+mat3 rotationFromTo(const vec3 &from, const vec3 &to);
 
 // --- Geometric classes ---
 
@@ -30,7 +41,5 @@ struct Hit {
     vec3 point;
     vec3 normal;
 };
-
-vec3 reflect(const vec3 &incident, const vec3 &normal);
 
 #endif // GEOM_H

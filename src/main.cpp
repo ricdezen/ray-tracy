@@ -19,8 +19,8 @@ int main(int argc, char **args) {
     const int SCREEN_WIDTH = 1280;
     const int SCREEN_HEIGHT = 720;
 
-    const int IMG_WIDTH = 320;
-    const int IMG_HEIGHT = 180;
+    const int IMG_WIDTH = 1280;
+    const int IMG_HEIGHT = 720;
 
     // Initialize SDL.
     ERROR_WRAP_SDL(SDL_Init(SDL_INIT_EVERYTHING));

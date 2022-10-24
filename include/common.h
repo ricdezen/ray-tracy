@@ -14,6 +14,7 @@
 // --- Types ---
 
 using vec3 = glm::vec3;
+using mat3 = glm::mat3;
 
 // --- Functions ---
 
@@ -21,5 +22,7 @@ using glm::clamp;
 using glm::max;
 using glm::min;
 using glm::normalize;
+using glm::reflect;
+using glm::transpose;
 
 #endif // COMMON_H
