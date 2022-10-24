@@ -21,7 +21,8 @@ Grid::Grid(const vec3 &o, const vec3 &x, const vec3 &y, int cells_x,
 }
 
 vec3 Grid::cellTopLeft(int x, int y) {
-    return top_left + x_axis * cell_width * x + y_axis * cell_height * y;
+    return top_left + x_axis * cell_width * (float)x +
+           y_axis * cell_height * (float)y;
 }
 
 vec3 Grid::cellCenter(int x, int y) {

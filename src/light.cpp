@@ -1,14 +1,12 @@
 #include <algorithm>
 #include <light.h>
 
-#define PI 3.141
-
 static vec3 sampleSphere() {
     // TODO: move elsewhere.
     float u = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
     float v = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
     float phi = acos(2 * u - 1);
-    float theta = v * 2 * PI;
+    float theta = v * 2.0f * MY_PIf;
 
     // To cartesian.
     return vec3(sin(phi) * cos(theta), sin(phi) * sin(theta), cos(phi));
@@ -16,7 +14,7 @@ static vec3 sampleSphere() {
 
 vec3 estimateRadiance(const Scene &scene, const Ray &ray, int bounces) {
     Hit hit = Hit::NO_HIT;
-    if (scene.hit(ray, hit, 0.0001, 100000000)) {
+    if (scene.hit(ray, hit, 0.0001f, 100000000.0f)) {
         // Material.
         // No more bounces, no more light.
         if (bounces == 0)
@@ -26,7 +24,7 @@ vec3 estimateRadiance(const Scene &scene, const Ray &ray, int bounces) {
         // TODO: samples sphere just to try cause it is easier, not correct tho.
         vec3 target = hit.point + hit.normal + sampleSphere();
         vec3 dir = normalize(target - hit.point);
-        float pdf = 0.5 / PI; // 1 / 2PI
+        float pdf = 0.5 / MY_PIf; // 1 / 2PI
 
         // Light coming from random direction in the scene.
         vec3 light = estimateRadiance(scene, {hit.point, dir}, bounces - 1);
@@ -34,7 +32,7 @@ vec3 estimateRadiance(const Scene &scene, const Ray &ray, int bounces) {
         // The diffuse color is a red.
         // The result is a bit screwed because the pdf above is
         vec3 reflected =
-            light * vec3(0.5, 0, 0) / PI * dot(dir, hit.normal) / pdf;
+            light * vec3(0.5, 0, 0) / MY_PIf * dot(dir, hit.normal) / pdf;
 
         return reflected;
     }

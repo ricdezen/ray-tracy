@@ -1,40 +1,13 @@
 #ifndef GEOM_H
 #define GEOM_H
 
-/**
- * Vector of 3 floats.
- */
-struct vec3 {
-    float x;
-    float y;
-    float z;
+#include <common.h>
 
-    vec3() = default;
-    vec3(float v);
-    vec3(float x, float y, float z);
+// --- Extra geometric functions ---
 
-    // Unary -
-    vec3 operator-() const;
+vec3 saturate(const vec3 &v);
 
-    // In-place operators
-    vec3 &operator+=(const vec3 &other);
-    vec3 &operator-=(const vec3 &other);
-    vec3 &operator*=(const vec3 &other);
-    vec3 &operator*=(float a);
-    vec3 &operator/=(float a);
-
-    // Binary operators
-    friend vec3 operator+(vec3 lhs, const vec3 &rhs);
-    friend vec3 operator-(vec3 lhs, const vec3 &rhs);
-    friend vec3 operator*(vec3 lhs, const vec3 &rhs);
-    friend vec3 operator*(vec3 lhs, float rhs);
-    friend vec3 operator/(vec3 lhs, float rhs);
-
-    friend float dot(const vec3 &lhs, const vec3 &rhs);
-    friend float length(const vec3 &v);
-    friend vec3 normalize(const vec3 &v);
-    friend vec3 saturate(const vec3 &v);
-};
+// --- Geometric classes ---
 
 /**
  * Line starting from a point and going in some direction.
