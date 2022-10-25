@@ -5,6 +5,7 @@
 #include <display.h>
 #include <hittable.h>
 #include <iostream>
+#include <thread>
 
 namespace chrono = std::chrono;
 
@@ -38,7 +39,9 @@ int main(int argc, char **args) {
     auto start_time = chrono::high_resolution_clock::now();
 
     // Generate image.
-    Image *image = camera.capture(scene, Camera::MSAA::X16, 1);
+    int n_threads = std::thread::hardware_concurrency() - 1;
+    printf("Generating image on %d threads.\n", n_threads);
+    Image *image = camera.capture(scene, Camera::MSAA::X16, n_threads);
 
     // Print time taken.
     auto end_time = chrono::high_resolution_clock::now();

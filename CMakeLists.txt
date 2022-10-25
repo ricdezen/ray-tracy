@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
+set(CXX_STANDARD 11)
 
 project(ray-tracy)
 
@@ -21,7 +22,7 @@ include_directories(dep/glm/glm)
 ## --- Compile actual project ---
 set(
     SRC_COMMON src/display.cpp src/geom.cpp src/hittable.cpp src/camera.cpp
-    src/light.cpp src/utils.cpp
+    src/light.cpp src/utils.cpp src/threading.cpp
 )
 
 include_directories(include)
