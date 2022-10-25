@@ -19,14 +19,11 @@ int main(int argc, char **args) {
     const int SCREEN_WIDTH = 1280;
     const int SCREEN_HEIGHT = 720;
 
-    const int IMG_WIDTH = 1280;
-    const int IMG_HEIGHT = 720;
+    const int IMG_WIDTH = 320;
+    const int IMG_HEIGHT = 180;
 
     // Initialize SDL.
     ERROR_WRAP_SDL(SDL_Init(SDL_INIT_EVERYTHING));
-
-    // Make canvas image.
-    Image image(IMG_WIDTH, IMG_HEIGHT);
 
     // Make scene.
     Scene scene({Sphere(vec3(0, 0, -5), vec3(1, 1, 1), 1),
@@ -41,17 +38,7 @@ int main(int argc, char **args) {
     auto start_time = chrono::high_resolution_clock::now();
 
     // Generate image.
-    for (int i = 0; i < IMG_HEIGHT; i++)
-        for (int j = 0; j < IMG_WIDTH; j++) {
-            vec3 color = camera.capture(scene, j, i, Camera::MSAA::OFF);
-            int red = (int)round(color.x * 255.0);
-            int green = (int)round(color.y * 255.0);
-            int blue = (int)round(color.z * 255.0);
-            image.drawPixel(j, i,
-                            (255 << 24) + red + (green << 8) + (blue << 16));
-            printf("Pixel %d / %d\n", i * IMG_WIDTH + j,
-                   IMG_WIDTH * IMG_HEIGHT);
-        }
+    Image *image = camera.capture(scene, Camera::MSAA::X16, 1);
 
     // Print time taken.
     auto end_time = chrono::high_resolution_clock::now();
@@ -60,7 +47,7 @@ int main(int argc, char **args) {
 
     // Make Window.
     Display display("A Window", SCREEN_WIDTH, SCREEN_HEIGHT);
-    display.update(&image);
+    display.update(image);
 
     // Window event loop.
     SDL_Event e;
@@ -74,6 +61,7 @@ int main(int argc, char **args) {
     }
 
     // Free resources and quit.
+    delete image;
     SDL_Quit();
     return 0;
 }
