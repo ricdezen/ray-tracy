@@ -50,12 +50,12 @@ void printProgress(float progress, int bar_size) {
     // Carriage return.
     str[0] = '\r';
 
+    // Fill the progress.
+    memset(str + 2, '#', (int)round(progress * (bar_size - 6)));
+
     // First and last brackets.
     str[1] = '{';
     str[bar_size - 4] = '}';
-
-    // Fill the progress.
-    memset(str + 2, '#', (int)round(progress * (bar_size - 7)));
 
     // Print bar and progress.
     printf("%s%3d%%", str, (int)round(progress * 100));
