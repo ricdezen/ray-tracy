@@ -56,6 +56,15 @@ Image *Camera::capture(const Scene &scene, Camera::MSAA msaa, int threads) {
         for (int j = 0; j < width; j++)
             jobs.push_back([&, i, j] {
                 vec3 color = capturePixel(scene, j, i, msaa);
+
+                // TODO: move this check somewhere else.
+                // This is a last resort or should be like a debug check.
+                if (color.x != color.x || color.y != color.y ||
+                    color.z != color.z) {
+                    printf("NaN!\n");
+                    exit(1);
+                }
+
                 int r = (int)round(color.x * 255.0);
                 int g = (int)round(color.y * 255.0);
                 int b = (int)round(color.z * 255.0);

@@ -34,13 +34,11 @@ vec3 estimateRadiance(const Scene &scene, const Ray &ray, int bounces) {
         vec3 color = vec3(1, 0, 0);
 
         // TODO: here I pretend the BRDF is constant -> lambertian diffuse.
-        vec3 reflected =
-            light * hit.diffuse / MY_PIf * dot(dir, hit.normal) / pdf;
+        float NdotL = glm::max(dot(dir, hit.normal), 0.0f);
 
-        return reflected;
+        return light * hit.diffuse / MY_PIf * NdotL / pdf;
     }
 
-    // Sky color if the ray goes up, otherwise black.
-    vec3 sky = vec3(0.8, 0.9, 1.0);
-    return ray.dir.y > 0 ? sky : vec3(0.0);
+    // Sky color weighted by y component.
+    return ray.dir.y * vec3(0.8, 0.9, 1.0);
 }

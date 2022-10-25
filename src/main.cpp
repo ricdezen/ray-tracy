@@ -20,8 +20,8 @@ int main(int argc, char **args) {
     const int SCREEN_WIDTH = 1280;
     const int SCREEN_HEIGHT = 720;
 
-    const int IMG_WIDTH = 320;
-    const int IMG_HEIGHT = 180;
+    const int IMG_WIDTH = 1280;
+    const int IMG_HEIGHT = 720;
 
     // Initialize SDL.
     ERROR_WRAP_SDL(SDL_Init(SDL_INIT_EVERYTHING));
@@ -30,7 +30,7 @@ int main(int argc, char **args) {
     Scene scene({Sphere(vec3(0, 0, -5), vec3(1, 1, 1), 1),
                  Sphere(vec3(-2, 0, -5), vec3(1, 0, 0), 1),
                  Sphere(vec3(2, 0, -5), vec3(0, 1, 0), 1),
-                 Sphere(vec3(0, -101, -5), vec3(0.1, 0.1, 0.2), 100)});
+                 Sphere(vec3(0, -101, -5), vec3(0.8, 0.8, 0.8), 100)});
 
     // Make camera.
     Camera camera(IMG_WIDTH, IMG_HEIGHT);

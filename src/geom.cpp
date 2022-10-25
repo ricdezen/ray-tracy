@@ -10,19 +10,22 @@ vec3 saturate(const vec3 &v) { return max(min(v, 1.0f), 0.0f); }
 mat3 rotationFromTo(const vec3 &from, const vec3 &to) {
     vec3 a = normalize(from);
     vec3 b = normalize(to);
-    vec3 axis = cross(a, b); // Rotation axis.
-    float c = dot(a, b);     // Cosine between vectors.
+    vec3 r = cross(a, b); // Rotation axis.
+    float c = dot(a, b);  // Cosine between vectors.
+
+    // Protect from NaN, return matrix that inverts a vector.
+    if (c < -1 + EPSILON)
+        return -mat3(1.0f);
 
     // Derivation:
     // https://gist.github.com/kevinmoran/b45980723e53edeb8a5a43c49f134724
     float k = 1.0f / (1.0f + c);
 
     mat3 rot =
-        mat3((axis.x * axis.x * k) + c, (axis.y * axis.x * k) - axis.z,
-             (axis.z * axis.x * k) + axis.y, (axis.x * axis.y * k) + axis.z,
-             (axis.y * axis.y * k) + c, (axis.z * axis.y * k) - axis.x,
-             (axis.x * axis.z * k) - axis.y, (axis.y * axis.z * k) + axis.x,
-             (axis.z * axis.z * k) + c);
+        mat3((r.x * r.x * k) + c, (r.y * r.x * k) - r.z, (r.z * r.x * k) + r.y,
+             (r.x * r.y * k) + r.z, (r.y * r.y * k) + c, (r.z * r.y * k) - r.x,
+             (r.x * r.z * k) - r.y, (r.y * r.z * k) + r.x, (r.z * r.z * k) + c);
+
     return transpose(rot);
 }
 
