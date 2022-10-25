@@ -37,3 +37,27 @@ Grid Grid::subgrid(int x, int y, int cells_x, int cells_y) {
     return Grid(cellTopLeft(x, y), cellTopRight(x, y), cellBottomLeft(x, y),
                 cells_x, cells_y);
 }
+
+// --- Progress bar ---
+
+void printProgress(float progress, int bar_size) {
+    // Need terminating 0 and initial \r
+    char *str = (char *)calloc(bar_size - 2, sizeof(char));
+    memset(str, ' ', bar_size - 2);
+
+    // 0 terminator.
+    str[bar_size - 3] = 0;
+    // Carriage return.
+    str[0] = '\r';
+
+    // First and last brackets.
+    str[1] = '{';
+    str[bar_size - 4] = '}';
+
+    // Fill the progress.
+    memset(str + 2, '#', (int)round(progress * (bar_size - 7)));
+
+    // Print bar and progress.
+    printf("%s%3d%%", str, (int)round(progress * 100));
+    free(str);
+}

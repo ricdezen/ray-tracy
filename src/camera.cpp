@@ -2,6 +2,7 @@
 #include <functional>
 #include <light.h>
 #include <threading.h>
+#include <utils.h>
 
 Camera::Camera(int width, int height) : width(width), height(height) {
     // TODO: camera is currently at origin facing z axis, change to allow
@@ -49,6 +50,7 @@ Image *Camera::capture(const Scene &scene, Camera::MSAA msaa, int threads) {
     Image *image = new Image(width, height);
     std::vector<std::function<void()>> jobs;
     std::mutex image_mutex;
+    int done = 0;
 
     for (int i = 0; i < height; i++)
         for (int j = 0; j < width; j++)
@@ -60,7 +62,7 @@ Image *Camera::capture(const Scene &scene, Camera::MSAA msaa, int threads) {
 
                 image_mutex.lock();
                 image->drawPixel(j, i, (255 << 24) + r + (g << 8) + (b << 16));
-                printf("Pixel %d / %d\n", i * width + j, width * height);
+                printProgress(++done * 1.0f / (height * width), 32);
                 image_mutex.unlock();
             });
 

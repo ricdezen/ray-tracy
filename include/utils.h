@@ -59,4 +59,12 @@ class Grid {
     float cell_half_h;
 };
 
+// --- Progress bar ---
+
+/**
+ * @param progress from 0 to 1.
+ * @param bar_size total size of the progress bar.
+ */
+void printProgress(float progress, int bar_size);
+
 #endif

@@ -46,7 +46,7 @@ int main(int argc, char **args) {
     // Print time taken.
     auto end_time = chrono::high_resolution_clock::now();
     auto sec = chrono::duration_cast<chrono::seconds>(end_time - start_time);
-    std::cout << sec.count() << " seconds taken.\n";
+    std::cout << std::endl << sec.count() << " seconds taken.\n";
 
     // Make Window.
     Display display("A Window", SCREEN_WIDTH, SCREEN_HEIGHT);
