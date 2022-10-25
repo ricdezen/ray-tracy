@@ -22,11 +22,11 @@ Camera::Camera(int width, int height) : width(width), height(height) {
     image_grid = Grid(top_left, top_right, bottom_left, width, height);
 }
 
-vec3 Camera::capturePixel(const Scene &scene, int x, int y, Camera::MSAA msaa) {
-    int samps = static_cast<int>(msaa);
-    // TODO: move out.
-    const int mcsamps = 1024;
-    const int bounces = 16;
+vec3 Camera::capturePixel(const Scene &scene, int x, int y,
+                          const RenderParams &p) {
+    const int samps = static_cast<int>(p.msaa);
+    const int mcsamps = p.samples;
+    const int bounces = p.bounces;
 
     // Make ray that goes through pixel.
     Grid pixel_grid = image_grid.subgrid(x, y, samps, samps);
@@ -46,7 +46,7 @@ vec3 Camera::capturePixel(const Scene &scene, int x, int y, Camera::MSAA msaa) {
     return saturate(color);
 }
 
-Image *Camera::capture(const Scene &scene, Camera::MSAA msaa, int threads) {
+Image *Camera::capture(const Scene &scene, const RenderParams &p) {
     Image *image = new Image(width, height);
     std::vector<std::function<void()>> jobs;
     std::mutex image_mutex;
@@ -55,7 +55,7 @@ Image *Camera::capture(const Scene &scene, Camera::MSAA msaa, int threads) {
     for (int i = 0; i < height; i++)
         for (int j = 0; j < width; j++)
             jobs.push_back([&, i, j] {
-                vec3 color = capturePixel(scene, j, i, msaa);
+                vec3 color = capturePixel(scene, j, i, p);
 
                 // TODO: move this check somewhere else.
                 // This is a last resort or should be like a debug check.
@@ -76,7 +76,7 @@ Image *Camera::capture(const Scene &scene, Camera::MSAA msaa, int threads) {
             });
 
     // Run in parallel.
-    parallelize(jobs, threads);
+    parallelize(jobs, p.threads);
 
     // Return image.
     return image;

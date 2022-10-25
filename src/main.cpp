@@ -35,13 +35,16 @@ int main(int argc, char **args) {
     // Make camera.
     Camera camera(IMG_WIDTH, IMG_HEIGHT);
 
+    // Rendering parameters.
+    int n_threads = std::thread::hardware_concurrency() - 1;
+    printf("Generating image on %d threads.\n", n_threads);
+    RenderParams params = {RenderParams::MSAA::X16, 1024, 16, n_threads};
+
     // Measure time.
     auto start_time = chrono::high_resolution_clock::now();
 
     // Generate image.
-    int n_threads = std::thread::hardware_concurrency() - 1;
-    printf("Generating image on %d threads.\n", n_threads);
-    Image *image = camera.capture(scene, Camera::MSAA::X16, n_threads);
+    Image *image = camera.capture(scene, params);
 
     // Print time taken.
     auto end_time = chrono::high_resolution_clock::now();
