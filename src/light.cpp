@@ -20,7 +20,6 @@ static vec3 sampleHemiSphere(const vec3 &normal) {
 vec3 estimateRadiance(const Scene &scene, const Ray &ray, int bounces) {
     Hit hit = Hit::NO_HIT;
     if (scene.hit(ray, hit, 0.0001f, 100000000.0f)) {
-        // Material.
         // No more bounces, no more light.
         if (bounces == 0)
             return vec3(0);
@@ -31,11 +30,11 @@ vec3 estimateRadiance(const Scene &scene, const Ray &ray, int bounces) {
 
         // Light coming from random direction in the scene.
         vec3 light = estimateRadiance(scene, {hit.point, dir}, bounces - 1);
-        vec3 color = vec3(1, 0, 0);
 
-        // TODO: here I pretend the BRDF is constant -> lambertian diffuse.
+        // NdotL clamped to [0, 1]
         float NdotL = glm::max(dot(dir, hit.normal), 0.0f);
 
+        // TODO: here I pretend the BRDF is constant -> lambertian diffuse.
         return light * hit.diffuse / MY_PIf * NdotL / pdf;
     }
 

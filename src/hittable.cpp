@@ -34,6 +34,10 @@ bool Sphere::hit(const Ray &ray, Hit &hit, float min_t, float max_t) const {
     hit.normal = (hit.point - center) / radius;
     hit.diffuse = color;
 
+    // Flip normal if the ray hit inside the sphere.
+    if (dot(hit.normal, ray.dir) > 0)
+        hit.normal = -hit.normal;
+
     return true;
 }
 

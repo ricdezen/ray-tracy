@@ -28,17 +28,20 @@ int main(int argc, char **args) {
 
     // Make scene.
     Scene scene({Sphere(vec3(0, 0, -5), vec3(1, 1, 1), 1),
-                 Sphere(vec3(-2, 0, -5), vec3(1, 0, 0), 1),
-                 Sphere(vec3(2, 0, -5), vec3(0, 1, 0), 1),
-                 Sphere(vec3(0, -101, -5), vec3(0.8, 0.8, 0.8), 100)});
+                 Sphere(vec3(-2.005, 0, -5), vec3(1, 0, 0), 1),
+                 Sphere(vec3(2.005, 0, -5), vec3(0, 1, 0), 1),
+                 Sphere(vec3(0, -101.005, -5), vec3(0.8, 0.8, 0.8), 100)});
 
     // Make camera.
     Camera camera(IMG_WIDTH, IMG_HEIGHT);
 
     // Rendering parameters.
+    RenderParams::MSAA msaa = RenderParams::MSAA::X16;
+    int samples = 1024;
+    int bounces = 16;
     int n_threads = std::thread::hardware_concurrency() - 1;
     printf("Generating image on %d threads.\n", n_threads);
-    RenderParams params = {RenderParams::MSAA::X16, 1024, 16, n_threads};
+    RenderParams params = {msaa, samples, bounces, n_threads};
 
     // Measure time.
     auto start_time = chrono::high_resolution_clock::now();
