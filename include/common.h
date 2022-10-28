@@ -12,7 +12,7 @@
 #define MY_2PIf 6.283185307179586f
 #define MY_PI_HALFf 1.5707963267948966f
 
-#include <glm.hpp>
+#include <glm/glm.hpp>
 
 // --- Types ---
 

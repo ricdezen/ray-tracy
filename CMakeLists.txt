@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-set(CXX_STANDARD 11)
+set(CXX_STANDARD 17)
 
 project(ray-tracy)
 
@@ -17,22 +17,29 @@ include_directories(dep/SDL/include)
 set(SDL_LIBS SDL2 SDL2main)
 
 ## --- GLM ---
-include_directories(dep/glm/glm)
+include_directories(dep/glm)
 
 ## --- GLFW ---
 add_subdirectory(dep/GLFW)
 include_directories(dep/glfw/include)
 set(GLFW_LIBS glfw)
 
+## --- Vulkan ---
+find_package(Vulkan REQUIRED)
+include_directories(${Vulkan_INCLUDE_DIRS})
+
 ## --- Compile actual project ---
 set(
     SRC_COMMON src/display.cpp src/geom.cpp src/hittable.cpp src/camera.cpp
     src/light.cpp src/utils.cpp src/threading.cpp
 )
-
 include_directories(include)
+
 add_executable(main src/main.cpp ${SRC_COMMON})
 target_link_libraries(main ${SDL_LIBS} ${GLFW_LIBS})
+
+add_executable(vk_test src/vulkan_test.cpp)
+target_link_libraries(vk_test ${GLFW_LIBS} ${Vulkan_LIBRARIES})
 
 ## --- Copy DLL after build ---
 file(
