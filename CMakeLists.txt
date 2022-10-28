@@ -19,6 +19,11 @@ set(SDL_LIBS SDL2 SDL2main)
 ## --- GLM ---
 include_directories(dep/glm/glm)
 
+## --- GLFW ---
+add_subdirectory(dep/GLFW)
+include_directories(dep/glfw/include)
+set(GLFW_LIBS glfw)
+
 ## --- Compile actual project ---
 set(
     SRC_COMMON src/display.cpp src/geom.cpp src/hittable.cpp src/camera.cpp
@@ -27,7 +32,7 @@ set(
 
 include_directories(include)
 add_executable(main src/main.cpp ${SRC_COMMON})
-target_link_libraries(main ${SDL_LIBS})
+target_link_libraries(main ${SDL_LIBS} ${GLFW_LIBS})
 
 ## --- Copy DLL after build ---
 file(
