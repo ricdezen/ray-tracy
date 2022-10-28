@@ -12,4 +12,5 @@ Most of the dependencies are included:
     [here](https://www.glfw.org/docs/latest/compile.html). Windows should be ok.
 - [Vulkan](https://vulkan.lunarg.com/sdk/home) must be installed via the SDK.
     The `VULKAN_SDK` environment variable must be set to the root of the Vulkan
-    installation for CMake to find it.
+    installation for CMake to find it. The Windows installer sets it
+    automatically.
