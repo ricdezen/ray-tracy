@@ -1,2 +1,6 @@
+# IDE dirs.
 .vscode/
+.vs/
+
+# CMake build dir
 build
