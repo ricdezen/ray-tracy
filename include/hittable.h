@@ -14,8 +14,8 @@ class Hittable {
      * @param hit The output variable for the recorded hit.
      * @return true if the ray hits, false otherwise
      */
-    virtual bool hit(const Ray &ray, Hit &hit, float min_t,
-                     float max_t) const = 0;
+    virtual bool
+    hit(const Ray &ray, Hit &hit, float min_t, float max_t) const = 0;
 };
 
 /**

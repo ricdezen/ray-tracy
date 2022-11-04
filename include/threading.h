@@ -10,6 +10,6 @@
  * @param jobs Set of jobs to run in parallel. Not modified, copied.
  * @param threads Maximum concurrent threads.
  */
-void parallelize(const std::vector<std::function<void()>> &jobs, int n_threads);
+void parallelize(const std::vector<std::function<void()>>& jobs, int n_threads);
 
 #endif

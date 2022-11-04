@@ -22,8 +22,9 @@ Camera::Camera(int width, int height) : width(width), height(height) {
     image_grid = Grid(top_left, top_right, bottom_left, width, height);
 }
 
-vec3 Camera::capturePixel(const Scene &scene, int x, int y,
-                          const RenderParams &p) {
+vec3 Camera::capturePixel(
+    const Scene &scene, int x, int y, const RenderParams &p
+) {
     const int samps = static_cast<int>(p.msaa);
     const int mcsamps = p.samples;
     const int bounces = p.bounces;
