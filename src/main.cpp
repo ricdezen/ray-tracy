@@ -40,7 +40,6 @@ int main(int argc, char** args) {
 	int samples = 1024;
 	int bounces = 16;
 	int n_threads = std::thread::hardware_concurrency() - 1;
-	n_threads = 1;
 	printf("Generating image on %d threads.\n", n_threads);
 	RenderParams params = { msaa, samples, bounces, n_threads };
 
